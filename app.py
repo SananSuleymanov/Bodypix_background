@@ -13,8 +13,8 @@ bp_model = load_model(download_model(BodyPixModelPaths.MOBILENET_FLOAT_50_STRIDE
 
 @app.route('/', methods=['POST'])
 def remove():
-    image_path= request.args.get('image_path')
-    print(image_path)
+    content= request.json
+    image_path=content['url']
     image=cv2.imread(image_path)
     prediction = bp_model.predict_single(image) 
     mask = prediction.get_mask(threshold=0.05).numpy().astype(np.uint8)
